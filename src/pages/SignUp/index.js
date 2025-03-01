@@ -8,6 +8,19 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const data = {
+      name,
+      email,
+      password,
+    };
+
+    if (data.name !== "" && data.email !== "" && data.password !== "") {
+    }
+  }
+
   return (
     <div className="container-center">
       <div className="login">
@@ -15,7 +28,7 @@ export default function SignUp() {
           <img src={logo} alt="Logo do sistema" />
         </div>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <h1>Cadastrar</h1>
           <input
             type="text"
