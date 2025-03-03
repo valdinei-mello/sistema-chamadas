@@ -1,24 +1,54 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext } from "react";
 import { auth, db } from "../services/firebaseConnection";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+// Criação do Contexto de Autenticação
 export const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  function signIn(email, password) {
-    console.log(email);
-    console.log(password);
-    alert("Logado");
+  // Função de Login (ainda não implementada)
+  async function signIn(email, password) {
+    setLoading(true);
+
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(async (value) => {
+        let uid = value.user.uid;
+
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+
+        let data = {
+          uid: uid,
+          email: value.user.email,
+          nome: docSnap.data().nome,
+          avatarUrl: docSnap.data().avatarUrl,
+        };
+
+        setUser(data);
+        storegeUser(data);
+        setLoading(false);
+        setLoading(false);
+        toast.success(`Bem vindo(a) de volta, ${data.nome}!`);
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        toast.error("Ops, algo deu errado! Verifique os dados");
+      });
   }
 
+  // Função de Cadastro de Usuário
   async function signUp(email, password, name) {
     setLoading(true);
 
@@ -36,12 +66,12 @@ function AuthProvider({ children }) {
             nome: name,
             avatarUrl: null,
           };
-          storegeUser(data);
-          setLoading(false);
-          setUser(data);
 
+          storegeUser(data);
+          setUser(data);
+          setLoading(false);
           navigate("/dashboard");
-          toast.success("Bem vindo(a) a plataforma!");
+          toast.success(`Bem vindo(a) a plataforma, ${data.nome}!`);
         });
       })
       .catch((error) => {
@@ -50,6 +80,7 @@ function AuthProvider({ children }) {
       });
   }
 
+  // Função para armazenar os dados do usuário no LocalStorage
   function storegeUser(data) {
     localStorage.setItem("@ticketsPRO", JSON.stringify(data));
   }
