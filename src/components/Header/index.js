@@ -7,7 +7,13 @@ import "./header.css";
 
 export function Header() {
   const { user } = useContext(AuthContext);
-  console.log(user);
+
+  const NavLink = ({ to, icon: Icon, label }) => (
+    <Link to={to} className="nav-link">
+      <Icon color="#fff" size={24} />
+      <span>{label}</span>
+    </Link>
+  );
 
   return (
     <div className="sidebar">
@@ -17,18 +23,9 @@ export function Header() {
           alt="Foto usuário"
         />
       </div>
-      <Link to="/dashboard">
-        <FiHome color="#fff" size={24} />
-        Chamados
-      </Link>
-      <Link to="/customers">
-        <FiUser color="#fff" size={24} />
-        Clientes
-      </Link>
-      <Link to="/profile">
-        <FiSettings color="#fff" size={24} />
-        Perfil
-      </Link>
+      <NavLink to="/dashboard" icon={FiHome} label="Chamados" />
+      <NavLink to="/customers" icon={FiUser} label="Clientes" />
+      <NavLink to="/profile" icon={FiSettings} label="Perfil" />
     </div>
   );
 }
