@@ -3,12 +3,21 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import Dashboard from "../pages/Dashboard";
 
+import Private from "./Private";
+
 function RoutesApp() {
   return (
     <Routes>
       <Route path="/" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} />
-      <Route path="/Dashboard" element={<Dashboard />} />
+      <Route
+        path="/Dashboard"
+        element={
+          <Private>
+            <Dashboard />
+          </Private>
+        }
+      />
     </Routes>
   );
 }

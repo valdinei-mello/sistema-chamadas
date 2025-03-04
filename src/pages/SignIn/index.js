@@ -2,7 +2,7 @@ import "./signin.css";
 import logo from "../../assets/logo.png";
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../contexts/auth";
+import { AuthContext } from "../../contexts/auth/auth";
 
 export default function SignIn() {
   // Estado para armazenar o email e a senha digitados pelo usuário
@@ -10,7 +10,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
 
   // Extraindo a função signIn e o estado de loading do AuthContext
-  const { signIn, loading } = useContext(AuthContext);
+  const { signIn, loadingAuth } = useContext(AuthContext);
 
   // Função que lida com o envio do formulário
   async function handleSighIn(e) {
@@ -51,7 +51,9 @@ export default function SignIn() {
               setPassword(e.target.value); // Atualiza o estado da senha a cada mudança
             }}
           />
-          <button type="submit">{loading ? "Carregando" : "Acessar"}</button>{" "}
+          <button type="submit">
+            {loadingAuth ? "Carregando" : "Acessar"}
+          </button>
           {/* Exibe "Carregando" ou "Acessar" dependendo do estado de loading */}
         </form>
 
