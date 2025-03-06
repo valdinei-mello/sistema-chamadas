@@ -17,6 +17,14 @@
     cursor: pointer;
 }
 
+.profile-image {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 250px;
+    height: 250px;
+
+}
+
 .label-avatar input {
     display: none;
 }

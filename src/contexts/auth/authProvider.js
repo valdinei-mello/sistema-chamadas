@@ -120,6 +120,8 @@ function AuthProvider({ children }) {
         loadingAuth, // Estado de carregamento da autenticação
         loading, // Estado de carregamento geral
         logout, // Função de logout
+        storegeUser, // Função para armazenar os dados do usuário
+        setUser, //atualizar os dados do usuário
       }}
     >
       {children} {/* Renderiza os componentes filhos */}
